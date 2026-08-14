@@ -66,7 +66,7 @@ static int download_component(const char *url, const char *path, const char *sta
 int patcher_download_osc_app(const char *app_name) {
     const char *remote_name = !strcmp(app_name, "agc") ? "AnyGlobe_Changer" : app_name;
     char app_path[384], url[1200], destination[520], status[160];
-    snprintf(app_path, sizeof(app_path), "sd:/apps/%s", remote_name);
+    snprintf(app_path, sizeof(app_path), STORAGE_ROOT "/apps/%s", remote_name);
     if (mkdir_recursive(app_path) != 0) return patcher_fail("No se pudo crear directorio de app OSC");
 
     static const char *const files[] = {"boot.dol", "meta.xml"};

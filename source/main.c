@@ -50,20 +50,26 @@ int main(int argc, char **argv) {
     debug_install_crash_handler();
 
     printf("%s %s\nBuild %s\n\n", APP_NAME, APP_VERSION, APP_BUILD);
-    printf("Montando SD...\n");
+    printf("Montando USB...\n");
     if (!fatInitDefault()) {
-        printf("\nERROR: no se pudo montar SD/USB.\n");
-        printf("Inserta una SD FAT32 y reinicia la aplicacion.\n");
+        printf("\nERROR: no se pudo inicializar FAT.\n");
+        printf("Conecta una unidad USB FAT32 y reinicia la aplicacion.\n");
         for (;;) {
             VIDEO_WaitVSync(); WPAD_ScanPads(); PAD_ScanPads();
             if ((WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) || (PAD_ButtonsDown(0) & PAD_BUTTON_START)) break;
         }
         return 1;
     }
-    mkdir_recursive(APP_DIR);
-    mkdir_recursive(LOG_DIR);
-    mkdir_recursive(WAD_DIR);
-    mkdir_recursive(WORK_DIR);
+    if (mkdir_recursive(APP_DIR) != 0 || mkdir_recursive(LOG_DIR) != 0 ||
+        mkdir_recursive(WAD_DIR) != 0 || mkdir_recursive(WORK_DIR) != 0) {
+        printf("\nERROR: usb:/ no esta montado o no permite escritura.\n");
+        printf("Usa una unidad USB FAT32 conectada al puerto 0.\n");
+        for (;;) {
+            VIDEO_WaitVSync(); WPAD_ScanPads(); PAD_ScanPads();
+            if ((WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) || (PAD_ButtonsDown(0) & PAD_BUTTON_START)) break;
+        }
+        return 1;
+    }
     debug_init();
 #ifdef DEBUG_SCREEN_DEFAULT
     debug_set_screen(true);

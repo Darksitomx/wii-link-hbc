@@ -87,7 +87,7 @@ static bool confirm(const char *title, const char *message) {
     for (;;) {
         print_header(title);
         printf("\n%s\n\n", message);
-        printf("Los WAD se guardan en sd:/WAD. El programa NO escribe en NAND.\n");
+        printf("Los WAD se guardan en usb:/WAD. El programa NO escribe en NAND.\n");
         printf("Haz una copia de NAND/BootMii antes de instalar WAD.\n\n");
         printf(selected == 0 ? "\x1b[47;30m > Continuar \x1b[0m     Cancelar\n"
                              : "   Continuar     \x1b[47;30m > Cancelar \x1b[0m\n");
@@ -210,7 +210,7 @@ static void express_setup(void) {
         }
     }
     print_header("Instalacion express lista");
-    printf("Los WAD estan en sd:/WAD.\n");
+    printf("Los WAD estan en usb:/WAD.\n");
     printf("Abre yawmME desde Homebrew Channel e instala solo los WAD preparados.\n");
     printf("Ejecuta sntp y Mail-Patcher cuando corresponda a la guia de WiiLink.\n");
     printf("No instales WAD de una region equivocada.\n");

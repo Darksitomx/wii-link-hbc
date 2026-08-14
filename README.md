@@ -9,7 +9,7 @@ Porta a C/libogc el flujo relevante de
 2. verifica SHA-1 y descifra el contenido con el motor AES de IOS;
 3. descarga y aplica los parches `BSDIFF40` oficiales de WiiLink;
 4. actualiza y fakesigna el TMD;
-5. cifra los contenidos y genera el WAD en `sd:/WAD`;
+5. cifra los contenidos y genera el WAD en `usb:/WAD`;
 6. descarga las aplicaciones auxiliares desde Open Shop Channel.
 
 > **Seguridad:** la aplicación no instala ni modifica la NAND. Genera WAD y descarga
@@ -34,9 +34,9 @@ Porta a C/libogc el flujo relevante de
 
 ## Logs y depuración
 
-- Log persistente: `sd:/apps/wiilink-patcher/logs/debug.log`.
+- Log persistente: `usb:/apps/wiilink-patcher/logs/debug.log`.
 - El log rota a `debug.log.old` al superar 512 KiB.
-- Crashlog: `sd:/apps/wiilink-patcher/logs/crash.log`.
+- Crashlog: `usb:/apps/wiilink-patcher/logs/crash.log`.
 - El crash handler muestra excepción, PC, LR, último paso y stack trace en pantalla,
   y guarda los 32 registros GPR y hasta 16 direcciones de retorno.
 - Pulsa **1** en Wii Remote o **X** en Classic/GameCube para alternar el debug en
@@ -71,10 +71,10 @@ Salidas:
 - `wiilink-patcher-wii.dol`
 - `wiilink-patcher-wii.elf`
 - `wiilink-patcher-wii.elf.map`
-- `wiilink-patcher-wii-0.1.0.zip`
+- `wiilink-patcher-wii-0.1.1.zip`
 
-Para instalar manualmente, copia el contenido del ZIP a la raíz de una SD FAT32.
-Homebrew Channel cargará `apps/wiilink-patcher/boot.dol`.
+Para instalar manualmente, copia el contenido del ZIP a la raíz de una unidad USB FAT32.
+Homebrew Channel cargará `usb:/apps/wiilink-patcher/boot.dol`.
 
 ## Actualizar el catálogo
 
@@ -91,7 +91,7 @@ parches, TMD/ticket especiales, dependencias y aplicaciones auxiliares.
 ## Pruebas realizadas
 
 - Compilación limpia con devkitPPC r50 / GCC 16.1.0 / libogc 3.1.0.
-- Arranque del DOL hasta el menú principal con SD y red en Dolphin 2503.
+- Arranque del DOL verificado en Dolphin 2503; el montaje `usb:/` requiere la prueba final en hardware real con almacenamiento USB.
 - SHA-1 contrastado con el vector `SHA1("abc")`.
 - `bspatch` por streaming contrastado con `bsdiff4` sobre datos aleatorios de
   500 KiB y sobre el parche real `forecast/Forecast_1.bsdiff`.

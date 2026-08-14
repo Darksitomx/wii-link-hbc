@@ -16,6 +16,13 @@ Porta a C/libogc el flujo relevante de
 > `yawmME`; el usuario decide qué instalar. Comprueba siempre que la región del WAD
 > sea la de la consola y conserva una copia de NAND/BootMii.
 
+## Cambios en 0.1.2
+
+- Corrige el falso error `BSPATCH: el tamaño del parche no coincide` en USB.
+  `libfat` puede mantener desactualizado el tamaño del directorio FAT mientras el
+  archivo sigue abierto; ahora BSPATCH valida `new_pos` y `ftell()`, fuerza
+  `fflush()`/`fclose()` y solo después renombra el resultado.
+
 ## Funciones
 
 - Instalación express para Forecast, News, Nintendo Channel, Everybody Votes y
@@ -71,7 +78,7 @@ Salidas:
 - `wiilink-patcher-wii.dol`
 - `wiilink-patcher-wii.elf`
 - `wiilink-patcher-wii.elf.map`
-- `wiilink-patcher-wii-0.1.1.zip`
+- `wiilink-patcher-wii-0.1.2.zip`
 
 Para instalar manualmente, copia el contenido del ZIP a la raíz de una unidad USB FAT32.
 Homebrew Channel cargará `usb:/apps/wiilink-patcher/boot.dol`.

@@ -138,10 +138,28 @@ int bspatch_file(const char *old_path, const char *patch_path, const char *new_p
         }
         old_pos += ctrl[2];
     }
-    fflush(new_file);
-    if ((int64_t)file_size_path(partial) != new_size) {
-        patch_fail("El tamano parcheado no coincide"); goto cleanup;
+    /*
+     * Do not stat() an open file here. libfat may keep the directory entry size
+     * stale until fclose(), which made valid patches fail on real USB devices.
+     * new_pos is validated by the BSDIFF loop; ftell() verifies what stdio has
+     * actually queued/written without consulting the stale FAT directory entry.
+     */
+    if (fflush(new_file) != 0) {
+        patch_fail("No se pudo vaciar el contenido parcheado"); goto cleanup;
     }
+    long written = ftell(new_file);
+    if (written < 0 || (int64_t)written != new_size || new_pos != new_size) {
+        snprintf(g_error, sizeof(g_error),
+                 "Tamano BSDIFF incorrecto: esperado %lld, escrito %ld",
+                 (long long)new_size, written);
+        ERROR("bspatch: %s", g_error);
+        goto cleanup;
+    }
+    if (fclose(new_file) != 0) {
+        new_file = NULL;
+        patch_fail("No se pudo cerrar el contenido parcheado"); goto cleanup;
+    }
+    new_file = NULL;
     rc = 0;
 
 cleanup:

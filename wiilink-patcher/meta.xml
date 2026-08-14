@@ -2,7 +2,7 @@
 <app version="1">
   <name>WiiLink Patcher Wii</name>
   <coder>WiiLink Patcher Wii contributors</coder>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <release_date>20260813000000</release_date>
   <short_description>Prepara canales WiiLink desde la Wii</short_description>
   <long_description>Cliente Wii basado en LibreShop que descarga titulos desde NUS, aplica los parches BSDIFF oficiales de WiiLink y genera WAD en usb:/WAD.

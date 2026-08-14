@@ -3,7 +3,7 @@
 
 #define APP_NAME "WiiLink Patcher Wii"
 #define APP_SLUG "wiilink-patcher"
-#define APP_VERSION "0.1.1"
+#define APP_VERSION "0.1.2"
 #define APP_BUILD "2026-08-13"
 
 #define STORAGE_ROOT "usb:"

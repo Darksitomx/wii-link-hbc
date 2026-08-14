@@ -3,7 +3,7 @@
 
 #define APP_NAME "WiiLink Patcher Wii"
 #define APP_SLUG "wiilink-patcher"
-#define APP_VERSION "0.1.2"
+#define APP_VERSION "0.2.0"
 #define APP_BUILD "2026-08-13"
 
 #define STORAGE_ROOT "usb:"
@@ -13,6 +13,7 @@
 #define LOG_DIR APP_DIR "/logs"
 #define DEBUG_LOG_PATH LOG_DIR "/debug.log"
 #define CRASH_LOG_PATH LOG_DIR "/crash.log"
+#define LANGUAGE_CONFIG_PATH APP_DIR "/language.cfg"
 
 #define NUS_HOST "nus.cdn.shop.wii.com"
 #define NUS_BASE "http://nus.cdn.shop.wii.com/ccs/download"

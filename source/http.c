@@ -1,6 +1,7 @@
 #include "http.h"
 #include "config.h"
 #include "debug.h"
+#include "i18n.h"
 #include "util.h"
 
 #include <arpa/inet.h>
@@ -33,12 +34,14 @@ typedef struct {
 static char g_error[256];
 
 static int fail(const char *message) {
+    message = TR(message);
     snprintf(g_error, sizeof(g_error), "%s", message);
     ERROR("HTTP: %s", g_error);
     return -1;
 }
 
 static int fail_code(const char *message, int code) {
+    message = TR(message);
     snprintf(g_error, sizeof(g_error), "%s (%d)", message, code);
     ERROR("HTTP: %s", g_error);
     return -1;
@@ -298,7 +301,10 @@ int http_download(const char *url, const char *destination, HttpProgress progres
             INFO("Downloaded %s (%llu bytes)", destination, (unsigned long long)file_size_path(destination));
             return 0;
         }
-        WARN("Reintento HTTP %d/%d: %s", attempt, HTTP_RETRIES, g_error);
+        char retry_message[384];
+        i18n_snprintf(retry_message, sizeof(retry_message),
+                      "Reintento HTTP %d/%d: %s", attempt, HTTP_RETRIES, g_error);
+        WARN("%s", retry_message);
         sleep(1);
     }
     unlink(partial);

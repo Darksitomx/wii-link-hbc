@@ -1,11 +1,13 @@
 #include "config.h"
 #include "debug.h"
+#include "i18n.h"
 #include "ui.h"
 #include "util.h"
 
 #include <fat.h>
 #include <gccore.h>
 #include <network.h>
+#include <ogc/conf.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,14 +33,14 @@ static void init_video(void) {
 
 static int init_network(void) {
     char ip[16] = {0}, mask[16] = {0}, gateway[16] = {0};
-    printf("Inicializando red (DHCP)...\n");
+    printf("%s", TR("Inicializando red (DHCP)...\n"));
     s32 rc = if_config(ip, mask, gateway, true, 20);
     if (rc < 0) {
         ERROR("if_config failed: %ld", (long)rc);
         return -1;
     }
     INFO("Network ready: ip=%s gateway=%s mask=%s", ip, gateway, mask);
-    printf("Red lista: %s\n", ip);
+    i18n_printf("Red lista: %s\n", ip);
     return 0;
 }
 
@@ -49,11 +51,13 @@ int main(int argc, char **argv) {
     PAD_Init();
     debug_install_crash_handler();
 
+    i18n_set_language(CONF_GetLanguage() == CONF_LANG_ENGLISH
+                          ? UI_LANGUAGE_ENGLISH : UI_LANGUAGE_SPANISH, false);
     printf("%s %s\nBuild %s\n\n", APP_NAME, APP_VERSION, APP_BUILD);
-    printf("Montando USB...\n");
+    printf("%s", TR("Montando USB...\n"));
     if (!fatInitDefault()) {
-        printf("\nERROR: no se pudo inicializar FAT.\n");
-        printf("Conecta una unidad USB FAT32 y reinicia la aplicacion.\n");
+        printf("%s", TR("\nERROR: no se pudo inicializar FAT.\n"));
+        printf("%s", TR("Conecta una unidad USB FAT32 y reinicia la aplicacion.\n"));
         for (;;) {
             VIDEO_WaitVSync(); WPAD_ScanPads(); PAD_ScanPads();
             if ((WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) || (PAD_ButtonsDown(0) & PAD_BUTTON_START)) break;
@@ -62,26 +66,28 @@ int main(int argc, char **argv) {
     }
     if (mkdir_recursive(APP_DIR) != 0 || mkdir_recursive(LOG_DIR) != 0 ||
         mkdir_recursive(WAD_DIR) != 0 || mkdir_recursive(WORK_DIR) != 0) {
-        printf("\nERROR: usb:/ no esta montado o no permite escritura.\n");
-        printf("Usa una unidad USB FAT32 conectada al puerto 0.\n");
+        printf("%s", TR("\nERROR: usb:/ no esta montado o no permite escritura.\n"));
+        printf("%s", TR("Usa una unidad USB FAT32 conectada al puerto 0.\n"));
         for (;;) {
             VIDEO_WaitVSync(); WPAD_ScanPads(); PAD_ScanPads();
             if ((WPAD_ButtonsDown(0) & WPAD_BUTTON_HOME) || (PAD_ButtonsDown(0) & PAD_BUTTON_START)) break;
         }
         return 1;
     }
+    bool language_configured = i18n_init();
     debug_init();
 #ifdef DEBUG_SCREEN_DEFAULT
     debug_set_screen(true);
 #endif
+    if (!language_configured) ui_select_language(true);
 
     if (AES_Init() < 0) {
-        ui_show_fatal("AES no disponible", "IOS no permitio abrir /dev/aes. Prueba otro IOS/HBC actualizado.");
+        ui_show_fatal(TR("AES no disponible"), TR("IOS no permitio abrir /dev/aes. Prueba otro IOS/HBC actualizado."));
         debug_close();
         return 2;
     }
     if (init_network() != 0) {
-        ui_show_fatal("Red no disponible", "No se pudo obtener configuracion DHCP. Revisa la conexion de Wii y vuelve a abrir.");
+        ui_show_fatal(TR("Red no disponible"), TR("No se pudo obtener configuracion DHCP. Revisa la conexion de Wii y vuelve a abrir."));
         AES_Close();
         debug_close();
         return 3;
@@ -90,10 +96,10 @@ int main(int argc, char **argv) {
     INFO("Startup completed");
     ui_run();
 
-    debug_set_step("Salida normal");
+    debug_set_step(TR("Salida normal"));
     INFO("Exiting to Homebrew Channel");
     AES_Close();
     debug_close();
-    printf("\x1b[2J\x1b[1;1HSaliendo...\n");
+    printf("%s", TR("\x1b[2J\x1b[1;1HSaliendo...\n"));
     return 0;
 }

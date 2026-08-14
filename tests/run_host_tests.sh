@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 cleanup() {
-  rm -f tests/test_bspatch_host tests/test_sha1_host \
+  rm -f tests/test_bspatch_host tests/test_sha1_host tests/test_i18n_host \
         tests/old.bin tests/new.bin tests/result.bin tests/change.bsdiff
 }
 trap cleanup EXIT
@@ -11,9 +11,12 @@ trap cleanup EXIT
 gcc -std=c11 -Isource tests/test_sha1_host.c source/sha1.c source/util.c \
   -o tests/test_sha1_host
 gcc -std=c11 -Isource tests/test_bspatch_host.c tests/host_stubs.c \
-  source/bspatch.c source/util.c -lbz2 -o tests/test_bspatch_host
+  source/bspatch.c source/i18n.c source/util.c -lbz2 -o tests/test_bspatch_host
+gcc -std=c11 -Isource tests/test_i18n_host.c tests/host_stubs.c \
+  source/i18n.c -o tests/test_i18n_host
 
 ./tests/test_sha1_host
+./tests/test_i18n_host
 python3 - <<'PY'
 from pathlib import Path
 import random
@@ -33,4 +36,5 @@ Path("tests/change.bsdiff").write_bytes(bsdiff4.diff(bytes(old), bytes(new)))
 PY
 ./tests/test_bspatch_host tests/old.bin tests/change.bsdiff tests/result.bin
 cmp tests/new.bin tests/result.bin
+python3 tests/validate_translations.py
 printf 'host core tests: PASS\n'

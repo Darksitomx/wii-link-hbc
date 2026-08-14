@@ -16,6 +16,17 @@ Porta a C/libogc el flujo relevante de
 > `yawmME`; el usuario decide qué instalar. Comprueba siempre que la región del WAD
 > sea la de la consola y conserva una copia de NAND/BootMii.
 
+## Cambios en 0.2.0
+
+- Selector persistente de idioma para la interfaz: Español y English.
+- En el primer arranque se solicita el idioma; después puede cambiarse desde el
+  menú principal.
+- Catálogo extensible en `source/i18n.c`: el español es la fuente/fallback y las
+  traducciones nuevas se añaden sin modificar la lógica de la interfaz.
+- Los estados, errores HTTP/NUS/BSDIFF/AES/WAD y la pantalla de crash también se
+  muestran en el idioma seleccionado.
+- La preferencia se guarda en `usb:/apps/wiilink-patcher/language.cfg`.
+
 ## Cambios en 0.1.2
 
 - Corrige el falso error `BSPATCH: el tamaño del parche no coincide` en USB.
@@ -78,7 +89,7 @@ Salidas:
 - `wiilink-patcher-wii.dol`
 - `wiilink-patcher-wii.elf`
 - `wiilink-patcher-wii.elf.map`
-- `wiilink-patcher-wii-0.1.2.zip`
+- `wiilink-patcher-wii-0.2.0.zip`
 
 Para instalar manualmente, copia el contenido del ZIP a la raíz de una unidad USB FAT32.
 Homebrew Channel cargará `usb:/apps/wiilink-patcher/boot.dol`.
@@ -100,6 +111,8 @@ parches, TMD/ticket especiales, dependencias y aplicaciones auxiliares.
 - Compilación limpia con devkitPPC r50 / GCC 16.1.0 / libogc 3.1.0.
 - Arranque del DOL verificado en Dolphin 2503; el montaje `usb:/` requiere la prueba final en hardware real con almacenamiento USB.
 - SHA-1 contrastado con el vector `SHA1("abc")`.
+- Catálogo de interfaz validado: 210 entradas Español → English, sin claves
+  duplicadas y con especificadores `printf` compatibles.
 - `bspatch` por streaming contrastado con `bsdiff4` sobre datos aleatorios de
   500 KiB y sobre el parche real `forecast/Forecast_1.bsdiff`.
 - Catálogo validado contra los endpoints HTTP de NUS, WiiLink Patcher y OSC.

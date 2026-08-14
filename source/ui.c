@@ -2,6 +2,7 @@
 #include "catalog.h"
 #include "config.h"
 #include "debug.h"
+#include "i18n.h"
 #include "patcher.h"
 
 #include <gccore.h>
@@ -21,7 +22,7 @@ static void clear_screen(void) { printf("\x1b[2J\x1b[1;1H"); }
 
 static void print_header(const char *title) {
     clear_screen();
-    printf("\x1b[44;37m %-48.48s %26s \x1b[0m\n", title, APP_NAME " " APP_VERSION);
+    printf("\x1b[44;37m %-48.48s %26s \x1b[0m\n", TR(title), APP_NAME " " APP_VERSION);
     printf("------------------------------------------------------------------------------\n");
 }
 
@@ -60,12 +61,12 @@ static int menu(const char *title, const char *const *items, size_t count, int i
         size_t shown = count - (size_t)offset > PAGE_ROWS ? PAGE_ROWS : count - (size_t)offset;
         for (size_t row = 0; row < shown; ++row) {
             size_t index = (size_t)offset + row;
-            printf(index == (size_t)selected ? "\x1b[47;30m > %-72.72s \x1b[0m\n" : "   %-72.72s\n", items[index]);
+            printf(index == (size_t)selected ? "\x1b[47;30m > %-72.72s \x1b[0m\n" : "   %-72.72s\n", TR(items[index]));
         }
         for (size_t row = shown; row < PAGE_ROWS; ++row) printf("\n");
         printf("------------------------------------------------------------------------------\n");
-        printf("%s\n", help ? help : "A: aceptar   B: volver   HOME: salir");
-        printf("1/X: debug en pantalla [%s]", debug_screen_enabled() ? "ON" : "OFF");
+        printf("%s\n", TR(help ? help : "A: aceptar   B: volver   HOME: salir"));
+        i18n_printf("1/X: debug en pantalla [%s]", debug_screen_enabled() ? "ON" : "OFF");
 
         int key = read_key();
         if (key == KEY_UP) selected = selected > 0 ? selected - 1 : (int)count - 1;
@@ -86,12 +87,14 @@ static bool confirm(const char *title, const char *message) {
     int selected = 0;
     for (;;) {
         print_header(title);
-        printf("\n%s\n\n", message);
-        printf("Los WAD se guardan en usb:/WAD. El programa NO escribe en NAND.\n");
-        printf("Haz una copia de NAND/BootMii antes de instalar WAD.\n\n");
-        printf(selected == 0 ? "\x1b[47;30m > Continuar \x1b[0m     Cancelar\n"
-                             : "   Continuar     \x1b[47;30m > Cancelar \x1b[0m\n");
-        printf("\nIzquierda/Derecha: elegir   A: aceptar   B: cancelar");
+        printf("\n%s\n\n", TR(message));
+        printf("%s", TR("Los WAD se guardan en usb:/WAD. El programa NO escribe en NAND.\n"));
+        printf("%s", TR("Haz una copia de NAND/BootMii antes de instalar WAD.\n\n"));
+        if (selected == 0)
+            printf("\x1b[47;30m > %-10s \x1b[0m     %s\n", TR("Continuar"), TR("Cancelar"));
+        else
+            printf("   %-10s     \x1b[47;30m > %s \x1b[0m\n", TR("Continuar"), TR("Cancelar"));
+        printf("%s", TR("\nIzquierda/Derecha: elegir   A: aceptar   B: cancelar"));
         int key = read_key();
         if (key == KEY_LEFT || key == KEY_RIGHT || key == KEY_UP || key == KEY_DOWN)
             selected = !selected;
@@ -102,7 +105,7 @@ static bool confirm(const char *title, const char *message) {
 }
 
 static void wait_back(void) {
-    printf("\nPulsa B/A/HOME para volver...");
+    printf("%s", TR("\nPulsa B/A/HOME para volver..."));
     for (;;) {
         int key = read_key();
         if (key == KEY_A || key == KEY_B || key == KEY_HOME) return;
@@ -111,8 +114,8 @@ static void wait_back(void) {
 
 void ui_show_fatal(const char *title, const char *message) {
     print_header(title);
-    printf("\x1b[31mERROR\x1b[0m\n\n%s\n\n", message ? message : "Error desconocido");
-    printf("Ultimo paso: %s\n", debug_last_step());
+    printf("\x1b[31mERROR\x1b[0m\n\n%s\n\n", TR(message ? message : "Error desconocido"));
+    i18n_printf("Ultimo paso: %s\n", debug_last_step());
     printf("Log: %s\n", debug_log_path());
     wait_back();
 }
@@ -126,7 +129,7 @@ void ui_progress(const char *status, uint64_t done, uint64_t total, void *user) 
     char bar[37];
     for (int i = 0; i < 36; ++i) bar[i] = i < bars ? '#' : '-';
     bar[36] = '\0';
-    printf("\x1b[s\x1b[25;1H\x1b[2K%-56.56s\n\x1b[2K[%s] ", status ? status : "Procesando", bar);
+    printf("\x1b[s\x1b[25;1H\x1b[2K%-56.56s\n\x1b[2K[%s] ", TR(status ? status : "Procesando"), bar);
     if (percent >= 0) printf("%3d%%", percent); else printf("%llu bytes", (unsigned long long)done);
     printf("\x1b[u");
     VIDEO_Flush();
@@ -151,8 +154,8 @@ static const ChannelDef *language_variant(uint16_t category_id, int language) {
 
 static int run_channel(const ChannelDef *channel) {
     print_header("Procesando canal");
-    printf("Canal: %s\n", channel->name);
-    printf("No apagues la consola ni retires la SD.\n\n");
+    i18n_printf("Canal: %s\n", channel->name);
+    printf("%s", TR("No apagues la consola ni retires la unidad USB.\n\n"));
     for (int i = 0; i < 17; ++i) printf("\n");
     g_last_percent = -2;
     int rc = patcher_patch_channel(channel, 1);
@@ -161,8 +164,8 @@ static int run_channel(const ChannelDef *channel) {
         ui_show_fatal("Fallo al preparar canal", patcher_last_error());
         return -1;
     }
-    printf("\x1b[32mCompletado:\x1b[0m %s\n", channel->name);
-    if (patcher_last_output()[0]) printf("Salida: %s\n", patcher_last_output());
+    printf("\x1b[32m%s\x1b[0m %s\n", TR("Completado:"), channel->name);
+    if (patcher_last_output()[0]) i18n_printf("Salida: %s\n", patcher_last_output());
     return 0;
 }
 
@@ -210,10 +213,10 @@ static void express_setup(void) {
         }
     }
     print_header("Instalacion express lista");
-    printf("Los WAD estan en usb:/WAD.\n");
-    printf("Abre yawmME desde Homebrew Channel e instala solo los WAD preparados.\n");
-    printf("Ejecuta sntp y Mail-Patcher cuando corresponda a la guia de WiiLink.\n");
-    printf("No instales WAD de una region equivocada.\n");
+    printf("%s", TR("Los WAD estan en usb:/WAD.\n"));
+    printf("%s", TR("Abre yawmME desde Homebrew Channel e instala solo los WAD preparados.\n"));
+    printf("%s", TR("Ejecuta sntp y Mail-Patcher cuando corresponda a la guia de WiiLink.\n"));
+    printf("%s", TR("No instales WAD de una region equivocada.\n"));
     wait_back();
 }
 
@@ -269,8 +272,8 @@ static void custom_setup(const char *type, const char *title) {
     if (run_channel(channel) != 0) return;
     print_header("Canal preparado");
     printf("%s\n\n", channel->name);
-    if (patcher_last_output()[0]) printf("Salida: %s\n", patcher_last_output());
-    printf("Instala el WAD con yawmME desde Homebrew Channel.\n");
+    if (patcher_last_output()[0]) i18n_printf("Salida: %s\n", patcher_last_output());
+    printf("%s", TR("Instala el WAD con yawmME desde Homebrew Channel.\n"));
     wait_back();
 }
 
@@ -288,13 +291,13 @@ static void utilities_menu(void) {
     int rc = choice == 0 ? patcher_prepare_support_apps() :
              choice == 1 ? patcher_download_spd() : patcher_download_osc_app("system-channel-restorer");
     if (rc != 0) ui_show_fatal("Fallo de descarga", patcher_last_error());
-    else { print_header("Descarga completa"); printf("Los archivos estan listos en la SD.\n"); wait_back(); }
+    else { print_header("Descarga completa"); printf("%s", TR("Los archivos estan listos en la unidad USB.\n")); wait_back(); }
 }
 
 static void view_log(void) {
     print_header("Ultimas lineas de debug.log");
     FILE *fp = fopen(DEBUG_LOG_PATH, "rb");
-    if (!fp) { printf("No hay log disponible.\n"); wait_back(); return; }
+    if (!fp) { printf("%s", TR("No hay log disponible.\n")); wait_back(); return; }
     char lines[20][79];
     int next = 0, used = 0;
     char line[512];
@@ -322,7 +325,23 @@ static void diagnostics(void) {
     for (int i = 0; i < 18; ++i) printf("\n");
     g_last_percent = -2;
     if (patcher_connection_test() != 0) ui_show_fatal("Diagnostico fallido", patcher_last_error());
-    else { printf("\x1b[24;1H\x1b[J\x1b[32mWiiLink, NUS y OSC responden correctamente.\x1b[0m\n"); wait_back(); }
+    else { printf("\x1b[24;1H\x1b[J\x1b[32m%s\x1b[0m\n", TR("WiiLink, NUS y OSC responden correctamente.")); wait_back(); }
+}
+
+void ui_select_language(bool required) {
+    static const char *const languages[] = {"Espanol", "English"};
+    for (;;) {
+        int choice = menu("Idioma / Language", languages, 2, (int)i18n_language(),
+                          "A: seleccionar / select   B: volver / back");
+        if (choice >= 0) {
+            i18n_set_language((UiLanguage)choice, true);
+            print_header("Idioma guardado");
+            printf("%s", TR("La interfaz se actualizo.\n"));
+            wait_back();
+            return;
+        }
+        if (!required) return;
+    }
 }
 
 void ui_run(void) {
@@ -334,17 +353,19 @@ void ui_run(void) {
         "Extras",
         "Utilidades y aplicaciones auxiliares",
         "Diagnostico y logs",
+        "Idioma de la interfaz",
         "Salir"
     };
     for (;;) {
         int choice = menu("Menu principal", items, sizeof(items) / sizeof(items[0]), 0,
                           "A: aceptar   B/HOME: salir   D-Pad: mover");
-        if (choice < 0 || choice == 6) return;
+        if (choice < 0 || choice == 7) return;
         if (choice == 0) express_setup();
         else if (choice == 1) custom_setup("wc24", "Canales WiiConnect24");
         else if (choice == 2) custom_setup("regional", "Canales regionales");
         else if (choice == 3) custom_setup("extra", "Extras");
         else if (choice == 4) utilities_menu();
         else if (choice == 5) diagnostics();
+        else if (choice == 6) ui_select_language(false);
     }
 }

@@ -1,5 +1,6 @@
 #include "debug.h"
 #include "config.h"
+#include "i18n.h"
 #include "util.h"
 
 #include <gccore.h>
@@ -88,14 +89,14 @@ static void crash_panic(unsigned exid, PPCContext *ctx) {
     }
 
     printf("\x1b[2J\x1b[1;1H\x1b[41;37m WiiLink Patcher Wii - CRASH \x1b[0m\n\n");
-    printf("Excepcion %s (%u)\n", exception_name(exid), exid);
+    i18n_printf("Excepcion %s (%u)\n", exception_name(exid), exid);
     printf("PC %08lx   LR %08lx\n", (unsigned long)ctx->pc, (unsigned long)ctx->lr);
-    printf("Ultimo paso: %.58s\n\n", g_step);
+    i18n_printf("Ultimo paso: %.58s\n\n", g_step);
     printf("Crashlog: %s\n", CRASH_LOG_PATH);
     printf("Debug log: %s\n\n", DEBUG_LOG_PATH);
-    printf("Fotografia esta pantalla y conserva los logs.\n");
-    printf("Usa boot.elf.map para resolver las direcciones.\n");
-    printf("Mantén POWER para apagar la consola.\n\nStack:\n");
+    printf("%s", TR("Fotografia esta pantalla y conserva los logs.\n"));
+    printf("%s", TR("Usa boot.elf.map para resolver las direcciones.\n"));
+    printf("%s", TR("Manten POWER para apagar la consola.\n\nStack:\n"));
 
     uint32_t sp = ctx->gpr[1];
     printf("%08lx %08lx ", (unsigned long)ctx->pc, (unsigned long)ctx->lr);

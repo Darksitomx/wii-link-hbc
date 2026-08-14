@@ -3,6 +3,7 @@
 #include "config.h"
 #include "debug.h"
 #include "http.h"
+#include "i18n.h"
 #include "title.h"
 #include "util.h"
 
@@ -19,13 +20,16 @@ static char g_output[520];
 static const char *g_status = "";
 
 static int patcher_fail(const char *message) {
+    message = TR(message);
     snprintf(g_error, sizeof(g_error), "%s", message);
     ERROR("Patcher: %s", message);
     return -1;
 }
 
 static int patcher_fail_detail(const char *message, const char *detail) {
-    snprintf(g_error, sizeof(g_error), "%s: %s", message, detail ? detail : "error desconocido");
+    message = TR(message);
+    detail = TR(detail ? detail : "error desconocido");
+    snprintf(g_error, sizeof(g_error), "%s: %s", message, detail);
     ERROR("Patcher: %s", g_error);
     return -1;
 }
@@ -39,6 +43,7 @@ void patcher_set_progress_callback(PatcherProgress callback, void *user) {
 }
 
 static void emit(const char *status, uint64_t done, uint64_t total) {
+    status = TR(status);
     g_status = status;
     if (g_progress) g_progress(status, done, total, g_progress_user);
 }
@@ -56,7 +61,7 @@ static void lowercase(char *destination, size_t size, const char *source) {
 }
 
 static int download_component(const char *url, const char *path, const char *status) {
-    debug_set_step(status);
+    debug_set_step(TR(status));
     emit(status, 0, 0);
     if (http_download(url, path, transfer_progress, NULL) != 0)
         return patcher_fail_detail(status, http_last_error());
@@ -74,19 +79,19 @@ int patcher_download_osc_app(const char *app_name) {
         snprintf(url, sizeof(url), "%s/unzipped_apps/%s/apps/%s/%s",
                  OSC_BASE, remote_name, remote_name, files[i]);
         snprintf(destination, sizeof(destination), "%s/%s", app_path, files[i]);
-        snprintf(status, sizeof(status), "Descargando %s: %s", remote_name, files[i]);
+        i18n_snprintf(status, sizeof(status), "Descargando %s: %s", remote_name, files[i]);
         if (download_component(url, destination, status) != 0) return -1;
     }
     snprintf(url, sizeof(url), "%s/api/v3/contents/%s/icon.png", OSC_BASE, remote_name);
     snprintf(destination, sizeof(destination), "%s/icon.png", app_path);
-    snprintf(status, sizeof(status), "Descargando %s: icon.png", remote_name);
+    i18n_snprintf(status, sizeof(status), "Descargando %s: icon.png", remote_name);
     if (download_component(url, destination, status) != 0) return -1;
     INFO("OSC app ready: %s", remote_name);
     return 0;
 }
 
 int patcher_prepare_support_apps(void) {
-    debug_set_step("Preparando aplicaciones auxiliares");
+    debug_set_step(TR("Preparando aplicaciones auxiliares"));
     static const char *const apps[] = {"yawmME", "sntp", "Mail-Patcher"};
     for (size_t i = 0; i < sizeof(apps) / sizeof(apps[0]); ++i)
         if (patcher_download_osc_app(apps[i]) != 0) return -1;
@@ -180,8 +185,8 @@ static int patch_title_only(const ChannelDef *channel) {
         snprintf(path, sizeof(path), "%s/content-%02u-%08lX.app", WORK_DIR,
                  (unsigned)i, (unsigned long)content->cid);
         char status[128];
-        snprintf(status, sizeof(status), "Contenido %u/%u (CID %08lX)",
-                 (unsigned)(i + 1), title.content_count, (unsigned long)content->cid);
+        i18n_snprintf(status, sizeof(status), "Contenido %u/%u (CID %08lX)",
+                      (unsigned)(i + 1), title.content_count, (unsigned long)content->cid);
         if (download_component(url, path, status) != 0) return -1;
         snprintf(content->encrypted_path, sizeof(content->encrypted_path), "%.319s", path);
     }
@@ -203,11 +208,11 @@ static int patch_title_only(const ChannelDef *channel) {
 
         snprintf(url, sizeof(url), "%s/bsdiff/%s/%s.bsdiff", PATCHER_BASE, folder, patch->name);
         char patch_status[160];
-        snprintf(patch_status, sizeof(patch_status), "Descargando parche %s", patch->name);
+        i18n_snprintf(patch_status, sizeof(patch_status), "Descargando parche %s", patch->name);
         if (download_component(url, patch_file, patch_status) != 0) return -1;
 
-        debug_set_step("Aplicando parche BSDIFF");
-        g_status = "Aplicando parche BSDIFF";
+        debug_set_step(TR("Aplicando parche BSDIFF"));
+        g_status = TR("Aplicando parche BSDIFF");
         if (bspatch_file(original, patch_file, patched, transfer_progress, NULL) != 0)
             return patcher_fail_detail("BSDIFF fallo", bspatch_last_error());
         if (title_update_content(&title, i, patched, encrypted) != 0)
@@ -278,7 +283,7 @@ int patcher_patch_channel(const ChannelDef *channel, int include_dependencies) {
 int patcher_connection_test(void) {
     uint8_t buffer[4096];
     size_t size = 0;
-    debug_set_step("Diagnostico de red WiiLink");
+    debug_set_step(TR("Diagnostico de red WiiLink"));
     emit("Probando servidor WiiLink", 0, 0);
     if (http_get_memory(PATCHER_BASE "/connectiontest.txt", buffer, sizeof(buffer), &size) != 0)
         return patcher_fail_detail("Servidor WiiLink inaccesible", http_last_error());

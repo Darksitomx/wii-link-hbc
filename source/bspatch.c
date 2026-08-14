@@ -1,6 +1,7 @@
 /* File-streaming bspatch based on Colin Percival's BSDIFF40 format. */
 #include "bspatch.h"
 #include "debug.h"
+#include "i18n.h"
 #include "util.h"
 
 #include <bzlib.h>
@@ -12,6 +13,7 @@
 static char g_error[192];
 
 static int patch_fail(const char *message) {
+    message = TR(message);
     snprintf(g_error, sizeof(g_error), "%s", message);
     ERROR("bspatch: %s", message);
     return -1;
@@ -149,9 +151,9 @@ int bspatch_file(const char *old_path, const char *patch_path, const char *new_p
     }
     long written = ftell(new_file);
     if (written < 0 || (int64_t)written != new_size || new_pos != new_size) {
-        snprintf(g_error, sizeof(g_error),
-                 "Tamano BSDIFF incorrecto: esperado %lld, escrito %ld",
-                 (long long)new_size, written);
+        i18n_snprintf(g_error, sizeof(g_error),
+                      "Tamano BSDIFF incorrecto: esperado %lld, escrito %ld",
+                      (long long)new_size, written);
         ERROR("bspatch: %s", g_error);
         goto cleanup;
     }

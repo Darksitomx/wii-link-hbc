@@ -1,5 +1,6 @@
 #include "title.h"
 #include "debug.h"
+#include "i18n.h"
 #include "sha1.h"
 #include "util.h"
 
@@ -23,12 +24,14 @@ static const uint8_t common_keys[3][16] ATTRIBUTE_ALIGN(32) = {
 };
 
 static int title_fail(const char *message) {
+    message = TR(message);
     snprintf(g_error, sizeof(g_error), "%s", message);
     ERROR("Title: %s", message);
     return -1;
 }
 
 static int title_fail_code(const char *message, int code) {
+    message = TR(message);
     snprintf(g_error, sizeof(g_error), "%s (%d)", message, code);
     ERROR("Title: %s", g_error);
     return -1;
@@ -191,13 +194,13 @@ static int crypt_content_file(const WiiTitle *title, size_t position, const char
 
 int title_decrypt_content(const WiiTitle *title, size_t position, const char *encrypted_path,
                           const char *decrypted_path) {
-    debug_set_step("Descifrando contenido NUS");
+    debug_set_step(TR("Descifrando contenido NUS"));
     return crypt_content_file(title, position, encrypted_path, decrypted_path, false);
 }
 
 int title_encrypt_content(const WiiTitle *title, size_t position, const char *decrypted_path,
                           const char *encrypted_path) {
-    debug_set_step("Cifrando contenido parcheado");
+    debug_set_step(TR("Cifrando contenido parcheado"));
     return crypt_content_file(title, position, decrypted_path, encrypted_path, true);
 }
 
@@ -255,7 +258,7 @@ static int copy_file_to(FILE *out, const char *path, uint64_t length) {
 }
 
 int title_build_wad(const WiiTitle *title, const char *output_path) {
-    debug_set_step("Empaquetando WAD");
+    debug_set_step(TR("Empaquetando WAD"));
     if (!title->cert_size || !title->ticket_size || !title->tmd_size || !title->content_count)
         return title_fail("Faltan componentes para crear WAD");
     uint64_t content_region_size = 0;

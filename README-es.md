@@ -2,6 +2,9 @@
 
 [English](README.md)
 
+> **Proyecto no oficial:** este cliente comunitario fue creado por **Darksito** y
+> **Mila Soraki**. No está afiliado ni respaldado por WiiLink.
+
 Cliente nativo para Wii (`boot.dol`) basado en un fork de
 [OpenShopChannel/libreshop-client](https://github.com/OpenShopChannel/libreshop-client).
 Porta a C/libogc el flujo relevante de
@@ -18,6 +21,15 @@ Porta a C/libogc el flujo relevante de
 > `yawmME`; el usuario decide qué instalar. Comprueba siempre que la región del WAD
 > sea la de la consola y conserva una copia de NAND/BootMii.
 
+## Cambios en 0.2.1
+
+- El ZIP de la release es intencionalmente mínimo. Solo contiene la carpeta
+  `wiilink-patcher-wii` con `boot.dol`, `icon.png` y `meta.xml`.
+- Los metadatos de Homebrew Channel están en inglés e indican claramente que es
+  un proyecto no oficial creado por Darksito y Mila Soraki.
+- Los datos de ejecución ahora usan `usb:/apps/wiilink-patcher-wii` para coincidir
+  con la carpeta incluida en el paquete.
+
 ## Cambios en 0.2.0
 
 - Selector persistente de idioma para la interfaz: Español y English.
@@ -27,7 +39,7 @@ Porta a C/libogc el flujo relevante de
   traducciones nuevas se añaden sin modificar la lógica de la interfaz.
 - Los estados, errores HTTP/NUS/BSDIFF/AES/WAD y la pantalla de crash también se
   muestran en el idioma seleccionado.
-- La preferencia se guarda en `usb:/apps/wiilink-patcher/language.cfg`.
+- La preferencia se guarda en `usb:/apps/wiilink-patcher-wii/language.cfg`.
 
 ## Cambios en 0.1.2
 
@@ -54,18 +66,18 @@ Porta a C/libogc el flujo relevante de
 
 ## Logs y depuración
 
-- Log persistente: `usb:/apps/wiilink-patcher/logs/debug.log`.
+- Log persistente: `usb:/apps/wiilink-patcher-wii/logs/debug.log`.
 - El log rota a `debug.log.old` al superar 512 KiB.
-- Crashlog: `usb:/apps/wiilink-patcher/logs/crash.log`.
+- Crashlog: `usb:/apps/wiilink-patcher-wii/logs/crash.log`.
 - El crash handler muestra excepción, PC, LR, último paso y stack trace en pantalla,
   y guarda los 32 registros GPR y hasta 16 direcciones de retorno.
 - Pulsa **1** en Wii Remote o **X** en Classic/GameCube para alternar el debug en
   pantalla en cualquier menú.
-- El ZIP incluye `debug-symbols/wiilink-patcher-wii.elf` y su `.map`. Para
-  resolver una dirección:
+- Las builds locales producen `wiilink-patcher-wii.elf` y su `.map` para resolver
+  direcciones de crash. Se excluyen intencionalmente del ZIP mínimo de la release:
 
 ```sh
-powerpc-eabi-addr2line -e debug-symbols/wiilink-patcher-wii.elf -f -C 0xDIRECCION
+powerpc-eabi-addr2line -e wiilink-patcher-wii.elf -f -C 0xDIRECCION
 ```
 
 La build de desarrollo arranca con el debug en pantalla activo:
@@ -91,10 +103,20 @@ Salidas:
 - `wiilink-patcher-wii.dol`
 - `wiilink-patcher-wii.elf`
 - `wiilink-patcher-wii.elf.map`
-- `wiilink-patcher-wii-0.2.0.zip`
+- `wiilink-patcher-wii-0.2.1.zip`
 
-Para instalar manualmente, copia el contenido del ZIP a la raíz de una unidad USB FAT32.
-Homebrew Channel cargará `usb:/apps/wiilink-patcher/boot.dol`.
+El ZIP de la release contiene exactamente:
+
+```text
+wiilink-patcher-wii/
+├── boot.dol
+├── icon.png
+└── meta.xml
+```
+
+Para instalar manualmente, copia la carpeta `wiilink-patcher-wii` dentro de
+`usb:/apps/`. Homebrew Channel cargará
+`usb:/apps/wiilink-patcher-wii/boot.dol`.
 
 ## Actualizar el catálogo
 

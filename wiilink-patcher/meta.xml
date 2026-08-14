@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <app version="1">
-  <name>WiiLink Patcher Wii</name>
-  <coder>WiiLink Patcher Wii contributors</coder>
-  <version>0.2.0</version>
+  <name>WiiLink Patcher Wii (Unofficial)</name>
+  <coder>Darksito &amp; Mila Soraki</coder>
+  <version>0.2.1</version>
   <release_date>20260813000000</release_date>
-  <short_description>Prepara canales WiiLink desde la Wii</short_description>
-  <long_description>Cliente Wii basado en LibreShop que descarga titulos desde NUS, aplica los parches BSDIFF oficiales de WiiLink y genera WAD en usb:/WAD.
+  <short_description>Unofficial WiiLink patcher for Wii</short_description>
+  <long_description>Unofficial community client created by Darksito and Mila Soraki. This project is not affiliated with or endorsed by WiiLink.
 
-No instala en NAND automaticamente. Usa yawmME, incluido por el cliente, para instalar los WAD despues de comprobar la region. Incluye logs persistentes, crashlog con registros y stack trace, y debug en pantalla con 1/X.
+It downloads titles from NUS, applies WiiLink BSDIFF patches, and writes generated WAD files to usb:/WAD. Support applications are downloaded separately by the client when required.
 
-Controles:
-A - aceptar
-B - volver
-D-Pad - mover
-1 / X - activar debug en pantalla
-HOME / START - salir</long_description>
+It never installs WAD files or writes to NAND automatically. Verify the WAD region and keep a NAND/BootMii backup before installation. Persistent debug logs, crash reports, stack traces, and on-screen debugging are included.
+
+Controls:
+A - Select
+B - Back
+D-Pad - Move
+1 / X - Toggle on-screen debug
+HOME / START - Exit</long_description>
   <ahb_access/>
   <no_ios_reload/>
 </app>

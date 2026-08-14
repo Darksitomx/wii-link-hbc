@@ -58,15 +58,12 @@ clean:
 
 package: all
 	@rm -rf package
-	@mkdir -p package/apps/wiilink-patcher
-	@cp $(TARGET).dol package/apps/wiilink-patcher/boot.dol
-	@cp wiilink-patcher/meta.xml wiilink-patcher/icon.png package/apps/wiilink-patcher/
-	@cp README.md README-es.md LICENSE LICENSE.WIILINK-GUI package/
-	@mkdir -p package/debug-symbols
-	@cp $(TARGET).elf $(TARGET).elf.map package/debug-symbols/
+	@mkdir -p package/wiilink-patcher-wii
+	@cp $(TARGET).dol package/wiilink-patcher-wii/boot.dol
+	@cp wiilink-patcher/meta.xml wiilink-patcher/icon.png package/wiilink-patcher-wii/
 	@rm -f wiilink-patcher-wii-$(shell grep APP_VERSION source/config.h | cut -d'"' -f2).zip
 	@cd package && zip -9 -r ../wiilink-patcher-wii-$(shell grep APP_VERSION source/config.h | cut -d'"' -f2).zip . >/dev/null
-	@echo "Created wiilink-patcher-wii package"
+	@echo "Created minimal wiilink-patcher-wii package"
 
 debug:
 	@$(MAKE) clean

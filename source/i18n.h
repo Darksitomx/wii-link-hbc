@@ -10,7 +10,7 @@ typedef enum {
     UI_LANGUAGE_COUNT
 } UiLanguage;
 
-/* Loads usb:/apps/wiilink-patcher/language.cfg. Returns true if valid. */
+/* Loads usb:/apps/wiilink-patcher-wii/language.cfg. Returns true if valid. */
 bool i18n_init(void);
 UiLanguage i18n_language(void);
 void i18n_set_language(UiLanguage language, bool persist);

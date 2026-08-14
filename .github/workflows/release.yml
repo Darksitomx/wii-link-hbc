@@ -38,6 +38,7 @@ jobs:
           make clean
           make -j2
           make package
+          python3 tests/validate_package.py
           sha256sum wiilink-patcher-wii-*.zip wiilink-patcher-wii.dol > SHA256SUMS.txt
 
       - name: Publish GitHub release
@@ -47,9 +48,12 @@ jobs:
         run: |
           set -euo pipefail
           cat > release-notes.md <<'EOF'
-          Native Wii client based on LibreShop and the WiiLink Patcher GUI workflow.
+          Unofficial native Wii client created by Darksito and Mila Soraki, based
+          on LibreShop and the WiiLink Patcher GUI workflow. This project is not
+          affiliated with or endorsed by WiiLink.
 
           Highlights:
+          - Minimal ZIP containing only `wiilink-patcher-wii/{boot.dol,icon.png,meta.xml}`
           - USB storage under `usb:/`
           - Streaming NUS, AES, BSDIFF, and WAD generation
           - Persistent debug and crash logs

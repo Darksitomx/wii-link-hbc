@@ -1,18 +1,111 @@
-# libreshop-client
+# WiiLink Patcher Wii
 
-Wii Homebrew downloader. Powered by Open Shop Channel
+Cliente nativo para Wii (`boot.dol`) basado en un fork de
+[OpenShopChannel/libreshop-client](https://github.com/OpenShopChannel/libreshop-client).
+Porta a C/libogc el flujo relevante de
+[WiiLink24/WiiLink-Patcher-GUI](https://github.com/WiiLink24/WiiLink-Patcher-GUI):
 
-### Build instructions
-Before building, install these dependencies:
-```
-pacman -S ppc-zip ppc-jansson wii-winyl ppc-yuarel
-```
-You will need to add the [nez-wii](https://wii.nezbednik.eu.org) pacman repository.
+1. descarga TMD, ticket y contenidos desde Nintendo Update Servers (NUS);
+2. verifica SHA-1 y descifra el contenido con el motor AES de IOS;
+3. descarga y aplica los parches `BSDIFF40` oficiales de WiiLink;
+4. actualiza y fakesigna el TMD;
+5. cifra los contenidos y genera el WAD en `sd:/WAD`;
+6. descarga las aplicaciones auxiliares desde Open Shop Channel.
 
+> **Seguridad:** la aplicación no instala ni modifica la NAND. Genera WAD y descarga
+> `yawmME`; el usuario decide qué instalar. Comprueba siempre que la región del WAD
+> sea la de la consola y conserva una copia de NAND/BootMii.
+
+## Funciones
+
+- Instalación express para Forecast, News, Nintendo Channel, Everybody Votes y
+  Check Mii Out/Mii Contest, con selección de región.
+- Selección personalizada de los canales WiiConnect24, regionales y extras presentes
+  en `WiiLink-Patcher-GUI` v1.5.3.
+- Wii Room en nueve idiomas; Photo Prints/Digicam; Food Channel estándar, Domino's
+  y Just Eat; Kirby TV; Wii Speak; Today and Tomorrow; Internet Channel; System
+  Channel Restorer.
+- Descarga de `yawmME`, `sntp`, `Mail-Patcher`, AnyGlobe Changer, WSR Patcher y
+  Account Linker cuando correspondan.
+- Wii Remote, Classic Controller y mando de GameCube.
+- HTTP con `Content-Length` o `chunked`, reintentos y escritura atómica `.part`.
+- Procesamiento por streaming: los contenidos, AES y BSDIFF pasan por SD y no se
+  cargan completos en RAM.
+
+## Logs y depuración
+
+- Log persistente: `sd:/apps/wiilink-patcher/logs/debug.log`.
+- El log rota a `debug.log.old` al superar 512 KiB.
+- Crashlog: `sd:/apps/wiilink-patcher/logs/crash.log`.
+- El crash handler muestra excepción, PC, LR, último paso y stack trace en pantalla,
+  y guarda los 32 registros GPR y hasta 16 direcciones de retorno.
+- Pulsa **1** en Wii Remote o **X** en Classic/GameCube para alternar el debug en
+  pantalla en cualquier menú.
+- El ZIP incluye `debug-symbols/wiilink-patcher-wii.elf` y su `.map`. Para
+  resolver una dirección:
+
+```sh
+powerpc-eabi-addr2line -e debug-symbols/wiilink-patcher-wii.elf -f -C 0xDIRECCION
 ```
-./data/create_acknowledgements
-make
-cp libreshop-client.dol libreshop/boot.dol
-cp data/default_config.json libreshop/config.json
-zip -r libreshop.zip libreshop/
+
+La build de desarrollo arranca con el debug en pantalla activo:
+
+```sh
+make debug
 ```
+
+## Compilación
+
+Dependencias de devkitPro:
+
+```sh
+sudo dkp-pacman -S wii-dev ppc-bzip2
+source /etc/profile.d/devkit-env.sh
+make clean
+make -j2
+make package
+```
+
+Salidas:
+
+- `wiilink-patcher-wii.dol`
+- `wiilink-patcher-wii.elf`
+- `wiilink-patcher-wii.elf.map`
+- `wiilink-patcher-wii-0.1.0.zip`
+
+Para instalar manualmente, copia el contenido del ZIP a la raíz de una SD FAT32.
+Homebrew Channel cargará `apps/wiilink-patcher/boot.dol`.
+
+## Actualizar el catálogo
+
+`source/catalog_generated.c` se genera desde el `patches.json` de
+WiiLink-Patcher-GUI:
+
+```sh
+python3 tools/generate_catalog.py
+```
+
+El generador conserva `category_id`, `item_id`, región, idioma, versión NUS,
+parches, TMD/ticket especiales, dependencias y aplicaciones auxiliares.
+
+## Pruebas realizadas
+
+- Compilación limpia con devkitPPC r50 / GCC 16.1.0 / libogc 3.1.0.
+- Arranque del DOL hasta el menú principal con SD y red en Dolphin 2503.
+- SHA-1 contrastado con el vector `SHA1("abc")`.
+- `bspatch` por streaming contrastado con `bsdiff4` sobre datos aleatorios de
+  500 KiB y sobre el parche real `forecast/Forecast_1.bsdiff`.
+- Catálogo validado contra los endpoints HTTP de NUS, WiiLink Patcher y OSC.
+
+No se puede sustituir una prueba en hardware real: antes de publicar una release,
+prueba al menos una Wii y una vWii, conserva los logs y verifica los WAD con una
+herramienta independiente.
+
+## Licencias y atribución
+
+- Base LibreShop: GPL-3.0, conservada en `LICENSE`.
+- Datos/flujo de WiiLink-Patcher-GUI: MPL-2.0, conservada en
+  `LICENSE.WIILINK-GUI`.
+- BSDIFF40 es el formato creado por Colin Percival; este port usa la interfaz bzip2
+  de devkitPro.
+- Los parches y servicios descargados pertenecen a sus respectivos proyectos.

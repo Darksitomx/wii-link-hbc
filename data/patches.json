@@ -1,0 +1,1155 @@
+[
+  {
+    "category_id": 1,
+    "name": "Forecast Channel",
+    "type": "wc24",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 7,
+        "patch_folder": "forecast",
+        "name": "Forecast Channel (USA)",
+        "patches": [
+          {
+            "patch_name": "Forecast_1",
+            "content_id": 1
+          },
+          {
+            "patch_name": "Forecast_5",
+            "content_id": 5
+          }
+        ],
+        "title_id": "0001000248414645",
+        "additional_apps": [
+          "agc"
+        ],
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 7,
+        "patch_folder": "forecast",
+        "name": "Forecast Channel (PAL)",
+        "patches": [
+          {
+            "patch_name": "Forecast_1",
+            "content_id": 1
+          },
+          {
+            "patch_name": "Forecast_5",
+            "content_id": 5
+          }
+        ],
+        "title_id": "0001000248414650",
+        "additional_apps": [
+          "agc"
+        ],
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 7,
+        "patch_folder": "forecast",
+        "name": "Forecast Channel (Japan)",
+        "patches": [
+          {
+            "patch_name": "Forecast_1",
+            "content_id": 1
+          },
+          {
+            "patch_name": "Forecast_5",
+            "content_id": 5
+          }
+        ],
+        "title_id": "000100024841464a",
+        "additional_apps": [
+          "agc"
+        ],
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 2,
+    "name": "News Channel",
+    "type": "wc24",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 7,
+        "patch_folder": "news",
+        "name": "News Channel (USA)",
+        "patches": [
+          {
+            "patch_name": "News_1",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000248414745",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 7,
+        "patch_folder": "news",
+        "name": "News Channel (PAL)",
+        "patches": [
+          {
+            "patch_name": "News_1",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000248414750",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 7,
+        "patch_folder": "news",
+        "name": "News Channel (Japan)",
+        "patches": [
+          {
+            "patch_name": "News_1",
+            "content_id": 1
+          }
+        ],
+        "title_id": "000100024841474a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 3,
+    "name": "Nintendo Channel",
+    "type": "wc24",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 1792,
+        "patch_folder": "nc",
+        "name": "Nintendo Channel (USA)",
+        "patches": [
+          {
+            "patch_name": "NC_1_USA",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000148415445",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "ticket"
+        ]
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 1792,
+        "patch_folder": "nc",
+        "name": "Nintendo Channel (PAL)",
+        "patches": [
+          {
+            "patch_name": "NC_1_PAL",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000148415450",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "ticket"
+        ]
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 1792,
+        "patch_folder": "nc",
+        "name": "Nintendo Channel (Japan)",
+        "patches": [
+          {
+            "patch_name": "NC_1_Japan",
+            "content_id": 1
+          }
+        ],
+        "title_id": "000100014841544a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 4,
+    "name": "Everybody Votes Channel",
+    "type": "wc24",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 512,
+        "patch_folder": "evc",
+        "name": "Everybody Votes Channel (USA)",
+        "patches": [
+          {
+            "patch_name": "EVC_1_USA",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000148414a45",
+        "additional_apps": null,
+        "additional_channels": [
+          {
+            "category": 5,
+            "channel": 1
+          }
+        ],
+        "additional_files": [
+          "ticket"
+        ]
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 512,
+        "patch_folder": "evc",
+        "name": "Everybody Votes Channel (PAL)",
+        "patches": [
+          {
+            "patch_name": "EVC_1_PAL",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000148414a50",
+        "additional_apps": null,
+        "additional_channels": [
+          {
+            "category": 5,
+            "channel": 2
+          }
+        ],
+        "additional_files": [
+          "ticket"
+        ]
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 512,
+        "patch_folder": "evc",
+        "name": "Everybody Votes Channel (Japan)",
+        "patches": [
+          {
+            "patch_name": "EVC_1_Japan",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000148414a4a",
+        "additional_apps": null,
+        "additional_channels": [
+          {
+            "category": 5,
+            "channel": 2
+          }
+        ],
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 5,
+    "name": "Region Select",
+    "type": "hidden",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 2,
+        "patch_folder": "regsel",
+        "name": "Region Select (USA)",
+        "patches": [
+          {
+            "patch_name": "RegSel_1",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000848414c45",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 2,
+        "patch_folder": "regsel",
+        "name": "Region Select (PAL)",
+        "patches": [
+          {
+            "patch_name": "RegSel_1",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000848414c50",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 2,
+        "patch_folder": "regsel",
+        "name": "Region Select (Japan)",
+        "patches": [
+          {
+            "patch_name": "RegSel_1",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000848414c4a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 6,
+    "name": "Check Mii Out Channel",
+    "type": "wc24",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 512,
+        "patch_folder": "cmoc",
+        "name": "Check Mii Out Channel (USA)",
+        "patches": [
+          {
+            "patch_name": "CMOC_1_USA",
+            "content_id": 1
+          },
+          {
+            "patch_name": "CMOC_4_USA",
+            "content_id": 4
+          }
+        ],
+        "title_id": "0001000148415045",
+        "additional_apps": [
+          "WSR-Patcher"
+        ],
+        "additional_channels": null,
+        "additional_files": [
+          "ticket"
+        ]
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 512,
+        "patch_folder": "cmoc",
+        "name": "Mii Contest Channel (PAL)",
+        "patches": [
+          {
+            "patch_name": "CMOC_1_PAL",
+            "content_id": 1
+          },
+          {
+            "patch_name": "CMOC_4_PAL",
+            "content_id": 4
+          }
+        ],
+        "title_id": "0001000148415050",
+        "additional_apps":  [
+          "WSR-Patcher"
+        ],
+        "additional_channels": null,
+        "additional_files": [
+          "ticket"
+        ]
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 512,
+        "patch_folder": "cmoc",
+        "name": "Check Mii Out Channel (Japan)",
+        "patches": [
+          {
+            "patch_name": "CMOC_1_Japan",
+            "content_id": 1
+          },
+          {
+            "patch_name": "CMOC_4_Japan",
+            "content_id": 4
+          }
+        ],
+        "title_id": "000100014841504a",
+        "additional_apps":  [
+          "WSR-Patcher"
+        ],
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 7,
+    "name": "Wii Room",
+    "type": "regional",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": "Japanese",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii no Ma (Japanese)",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_1_Universal",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_Japan",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": "English",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii Room (English)",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_0_Universal",
+            "content_id": 0
+          },
+          {
+            "patch_name": "WiinoMa_1_Universal",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_English",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      },
+      {
+        "item_id": 3,
+        "language": "Spanish",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii Room (Espa\u00f1ol)",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_0_Universal",
+            "content_id": 0
+          },
+          {
+            "patch_name": "WiinoMa_1_Universal",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_Spanish",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      },
+      {
+        "item_id": 4,
+        "language": "French",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii Room (Fran\u00e7ais)",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_0_Universal",
+            "content_id": 0
+          },
+          {
+            "patch_name": "WiinoMa_1_Universal",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_French",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      },
+      {
+        "item_id": 5,
+        "language": "German",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii Room (Deutsch)",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_0_Universal",
+            "content_id": 0
+          },
+          {
+            "patch_name": "WiinoMa_1_Universal",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_German",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      },
+      {
+        "item_id": 6,
+        "language": "Italian",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii Room (Italiano)",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_0_Universal",
+            "content_id": 0
+          },
+          {
+            "patch_name": "WiinoMa_1_Universal",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_Italian",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      },
+      {
+        "item_id": 7,
+        "language": "Dutch",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii Room (Nederlands)",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_0_Universal",
+            "content_id": 0
+          },
+          {
+            "patch_name": "WiinoMa_1_Universal",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_Dutch",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      },
+      {
+        "item_id": 8,
+        "language": "Portuguese",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii Room (Portugu\u00eas (Brasil))",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_0_Universal",
+            "content_id": 0
+          },
+          {
+            "patch_name": "WiinoMa_1_Portuguese",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_Portuguese",
+            "content_id": 2
+          },
+          {
+            "patch_name": "WiinoMa_3_Portuguese",
+            "content_id": 3
+          },
+          {
+            "patch_name": "WiinoMa_4_Portuguese",
+            "content_id": 4
+          },
+          {
+            "patch_name": "WiinoMa_D_Portuguese",
+            "content_id": 13
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      },
+      {
+        "item_id": 9,
+        "language": "Russian",
+        "region": null,
+        "latest_version": 1025,
+        "patch_folder": "WiinoMa",
+        "name": "Wii Room (\u0420\u0443\u0441\u0441\u043a\u0438\u0439)",
+        "patches": [
+          {
+            "patch_name": "WiinoMa_0_Universal",
+            "content_id": 0
+          },
+          {
+            "patch_name": "WiinoMa_1_Russian",
+            "content_id": 1
+          },
+          {
+            "patch_name": "WiinoMa_2_Russian",
+            "content_id": 2
+          },
+          {
+            "patch_name": "WiinoMa_3_Russian",
+            "content_id": 3
+          },
+          {
+            "patch_name": "WiinoMa_4_Russian",
+            "content_id": 4
+          },
+          {
+            "patch_name": "WiinoMa_9_Russian",
+            "content_id": 9
+          },
+          {
+            "patch_name": "WiinoMa_C_Russian",
+            "content_id": 12
+          },
+          {
+            "patch_name": "WiinoMa_D_Russian",
+            "content_id": 13
+          },
+          {
+            "patch_name": "WiinoMa_E_Russian",
+            "content_id": 14
+          }
+        ],
+        "title_id": "000100014843494a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      }
+    ]
+  },
+  {
+    "category_id": 8,
+    "name": "Photo Prints Channel",
+    "type": "regional",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": "Japanese",
+        "region": null,
+        "latest_version": 1024,
+        "patch_folder": "Digicam",
+        "name": "Digicam Print Channel (Japanese)",
+        "patches": [
+          {
+            "patch_name": "Digicam_1_Japan",
+            "content_id": 1
+          }
+        ],
+        "title_id": "000100014843444a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": "English",
+        "region": null,
+        "latest_version": 1024,
+        "patch_folder": "Digicam",
+        "name": "Photo Prints Channel (English)",
+        "patches": [
+          {
+            "patch_name": "Digicam_0_English",
+            "content_id": 0
+          },
+          {
+            "patch_name": "Digicam_1_English",
+            "content_id": 1
+          },
+          {
+            "patch_name": "Digicam_2_English",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843444a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      }
+    ]
+  },
+  {
+    "category_id": 9,
+    "name": "Food Channel (Standard)",
+    "type": "regional",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": "Japanese",
+        "region": null,
+        "latest_version": 512,
+        "patch_folder": "Demae",
+        "name": "Demae Channel (Standard) (Japanese)",
+        "patches": [
+          {
+            "patch_name": "Demae_1_Japan",
+            "content_id": 1
+          }
+        ],
+        "title_id": "000100014843484a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": "English",
+        "region": null,
+        "latest_version": 512,
+        "patch_folder": "Demae",
+        "name": "Food Channel (Standard) (English)",
+        "patches": [
+          {
+            "patch_name": "Demae_0_English",
+            "content_id": 0
+          },
+          {
+            "patch_name": "Demae_1_English",
+            "content_id": 1
+          },
+          {
+            "patch_name": "Demae_2_English",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843484a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      }
+    ]
+  },
+  {
+    "category_id": 10,
+    "name": "Kirby TV Channel",
+    "type": "regional",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": null,
+        "latest_version": 257,
+        "patch_folder": "ktv",
+        "name": "Kirby TV Channel",
+        "patches": [
+          {
+            "patch_name": "ktv_2",
+            "content_id": 2
+          }
+        ],
+        "title_id": "0001000148434d50",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "tmd",
+          "ticket"
+        ]
+      }
+    ]
+  },
+  {
+    "category_id": 11,
+    "name": "System Channel Restorer",
+    "type": "extra",
+    "network": "OSC",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": null,
+        "latest_version": null,
+        "patch_folder": null,
+        "name": "System Channel Restorer",
+        "patches": null,
+        "title_id": null,
+        "additional_apps": [
+          "system-channel-restorer"
+        ],
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 12,
+    "name": "Wii Speak Channel (Wiimmfi)",
+    "type": "extra",
+    "network": "Wiimmfi",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 512,
+        "patch_folder": "ws",
+        "name": "Wii Speak Channel (USA)",
+        "patches": [
+          {
+            "patch_name": "WiiSpeak_1_USA",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000148434645",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 512,
+        "patch_folder": "ws",
+        "name": "Wii Speak Channel (PAL)",
+        "patches": [
+          {
+            "patch_name": "WiiSpeak_1_PAL",
+            "content_id": 1
+          }
+        ],
+        "title_id": "0001000148434650",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 512,
+        "patch_folder": "ws",
+        "name": "Wii Speak Channel (Japan)",
+        "patches": [
+          {
+            "patch_name": "WiiSpeak_1_Japan",
+            "content_id": 1
+          }
+        ],
+        "title_id": "000100014843464a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 13,
+    "name": "Today and Tomorrow Channel",
+    "type": "extra",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 512,
+        "patch_folder": "tatc",
+        "name": "Today and Tomorrow Channel (PAL)",
+        "patches": null,
+        "title_id": "0001000148415650",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": [
+          "ticket"
+        ]
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 512,
+        "patch_folder": "tatc",
+        "name": "Today and Tomorrow Channel (Japan)",
+        "patches": null,
+        "title_id": "000100014841564a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 14,
+    "name": "EULA",
+    "type": "hidden",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 3,
+        "patch_folder": null,
+        "name": "EULA (USA)",
+        "patches": null,
+        "title_id": "0001000848414b45",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 3,
+        "patch_folder": null,
+        "name": "EULA (PAL)",
+        "patches": null,
+        "title_id": "0001000848414b50",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 3,
+        "patch_folder": null,
+        "name": "EULA (Japan)",
+        "patches": null,
+        "title_id": "0001000848414b4a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 15,
+    "name": "Food Channel (Domino's) - US and Canada",
+    "type": "regional",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": "English",
+        "region": null,
+        "latest_version": 512,
+        "patch_folder": "Dominos",
+        "name": "Food Channel (Domino's) (English)",
+        "patches": [
+          {
+            "patch_name": "Dominos_0",
+            "content_id": 0
+          },
+          {
+            "patch_name": "Dominos_1",
+            "content_id": 1
+          },
+          {
+            "patch_name": "Dominos_2",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843484a",
+        "additional_apps": [
+          "wiilink-account-linker"
+        ],
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      }
+    ]
+  },
+  {
+    "category_id": 16,
+    "name": "Internet Channel",
+    "type": "extra",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": null,
+        "region": "USA",
+        "latest_version": 1024,
+        "patch_folder": null,
+        "name": "Internet Channel (USA)",
+        "patches": null,
+        "title_id": "0001000148414445",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 2,
+        "language": null,
+        "region": "PAL",
+        "latest_version": 1024,
+        "patch_folder": null,
+        "name": "Internet Channel (PAL)",
+        "patches": null,
+        "title_id": "0001000148414450",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      },
+      {
+        "item_id": 3,
+        "language": null,
+        "region": "Japan",
+        "latest_version": 1024,
+        "patch_folder": null,
+        "name": "Internet Channel (Japan)",
+        "patches": null,
+        "title_id": "000100014841444a",
+        "additional_apps": null,
+        "additional_channels": null,
+        "additional_files": null
+      }
+    ]
+  },
+  {
+    "category_id": 17,
+    "name": "Food Channel (Just Eat) - Limited European countries",
+    "type": "regional",
+    "network": "WiiLink",
+    "channels": [
+      {
+        "item_id": 1,
+        "language": "English",
+        "region": null,
+        "latest_version": 512,
+        "patch_folder": "eater",
+        "name": "Food Channel (Just Eat) (English)",
+        "patches": [
+          {
+            "patch_name": "JustEat_0_English",
+            "content_id": 0
+          },
+          {
+            "patch_name": "JustEat_1_English",
+            "content_id": 1
+          },
+          {
+            "patch_name": "JustEat_2_English",
+            "content_id": 2
+          }
+        ],
+        "title_id": "000100014843484a",
+        "additional_apps": [
+          "wiilink-account-linker"
+        ],
+        "additional_channels": null,
+        "additional_files": [
+          "tmd"
+        ]
+      }
+    ]
+  }
+]

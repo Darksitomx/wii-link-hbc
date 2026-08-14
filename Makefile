@@ -1,138 +1,85 @@
-#---------------------------------------------------------------------------------
-# Clear the implicit built in rules
-#---------------------------------------------------------------------------------
+# WiiLink Patcher Wii - devkitPro/libogc build
 .SUFFIXES:
-#---------------------------------------------------------------------------------
+
 ifeq ($(strip $(DEVKITPPC)),)
-$(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPPC")
+$(error "Please set DEVKITPPC (source /etc/profile.d/devkit-env.sh)")
 endif
 
 include $(DEVKITPPC)/wii_rules
 
-#---------------------------------------------------------------------------------
-# TARGET is the name of the output
-# BUILD is the directory where object files & intermediate files will be placed
-# SOURCES is a list of directories containing source code
-# INCLUDES is a list of directories containing extra header files
-#---------------------------------------------------------------------------------
-TARGET		:=	$(notdir $(CURDIR))
-BUILD		:=	build
-SOURCES		:=	source
-DATA		:=	data
-INCLUDES	:=
+TARGET      := wiilink-patcher-wii
+BUILD       := build
+SOURCES     := source
+DATA        :=
+INCLUDES    := source
 
-#---------------------------------------------------------------------------------
-# options for code generation
-#---------------------------------------------------------------------------------
+CFLAGS      := -g -O2 -Wall -Wextra -Wshadow -Wformat=2 $(MACHDEP) $(INCLUDE)
+CXXFLAGS    := $(CFLAGS)
+LDFLAGS      = -g $(MACHDEP) -Wl,-Map,$(OUTPUT).elf.map
+LIBS        := -lbz2 -lfat -lwiiuse -lbte -logc -lm
+LIBDIRS     := $(PORTLIBS)
 
-CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE)
-CXXFLAGS	=	$(CFLAGS)
-
-LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
-
-#---------------------------------------------------------------------------------
-# any extra libraries we wish to link with the project
-#---------------------------------------------------------------------------------
-LIBS	:=	-lwiiuse -lbte -lfat -logc -lm -lzip -lz -lbz2 -ljansson -lwinyl -lyuarel
-
-#---------------------------------------------------------------------------------
-# list of directories containing libraries, this must be the top level containing
-# include and lib
-#---------------------------------------------------------------------------------
-LIBDIRS	:= $(PORTLIBS)
-
-#---------------------------------------------------------------------------------
-# no real need to edit anything past this point unless you need to add additional
-# rules for different file extensions
-#---------------------------------------------------------------------------------
-ifneq ($(BUILD),$(notdir $(CURDIR)))
-#---------------------------------------------------------------------------------
-
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
-
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
-
-export DEPSDIR	:=	$(CURDIR)/$(BUILD)
-
-#---------------------------------------------------------------------------------
-# automatically build a list of object files for our project
-#---------------------------------------------------------------------------------
-CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
-CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
-sFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
-SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
-BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
-
-#---------------------------------------------------------------------------------
-# use CXX for linking C++ projects, CC for standard C
-#---------------------------------------------------------------------------------
-ifeq ($(strip $(CPPFILES)),)
-	export LD	:=	$(CC)
-else
-	export LD	:=	$(CXX)
+ifeq ($(DEBUG),1)
+CFLAGS      += -DDEBUG_SCREEN_DEFAULT=1 -DDEBUG_BUILD=1
 endif
 
-export OFILES_BIN	:=	$(addsuffix .o,$(BINFILES))
-export OFILES_SOURCES := $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(sFILES:.s=.o) $(SFILES:.S=.o)
-export OFILES := $(OFILES_BIN) $(OFILES_SOURCES)
+ifneq ($(BUILD),$(notdir $(CURDIR)))
 
-export HFILES := $(addsuffix .h,$(subst .,_,$(BINFILES)))
+export OUTPUT     := $(CURDIR)/$(TARGET)
+export VPATH      := $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))
+export DEPSDIR    := $(CURDIR)/$(BUILD)
 
-#---------------------------------------------------------------------------------
-# build a list of include paths
-#---------------------------------------------------------------------------------
-export INCLUDE	:=	$(foreach dir,$(INCLUDES), -iquote $(CURDIR)/$(dir)) \
-					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-					-I$(CURDIR)/$(BUILD) \
-					-I$(LIBOGC_INC)
+CFILES            := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+CPPFILES          := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+SFILES            := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
+SFILES_UPPER      := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
 
-#---------------------------------------------------------------------------------
-# build a list of library paths
-#---------------------------------------------------------------------------------
-export LIBPATHS	:= -L$(LIBOGC_LIB) $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
+ifeq ($(strip $(CPPFILES)),)
+export LD         := $(CC)
+else
+export LD         := $(CXX)
+endif
 
-export OUTPUT	:=	$(CURDIR)/$(TARGET)
-.PHONY: $(BUILD) clean
+export OFILES     := $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o) $(SFILES_UPPER:.S=.o)
+export INCLUDE    := $(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
+                     $(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+                     -I$(CURDIR)/$(BUILD) -I$(LIBOGC_INC)
+export LIBPATHS   := $(foreach dir,$(LIBDIRS),-L$(dir)/lib) -L$(LIBOGC_LIB)
 
-#---------------------------------------------------------------------------------
+.PHONY: all clean package debug
+all: $(BUILD)
+
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 
-#---------------------------------------------------------------------------------
 clean:
-	@echo clean ...
-	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol
+	@rm -rf $(BUILD) $(OUTPUT).elf $(OUTPUT).dol $(OUTPUT).elf.map package
 
-#---------------------------------------------------------------------------------
-run:
-	wiiload $(TARGET).dol
+package: all
+	@rm -rf package
+	@mkdir -p package/apps/wiilink-patcher
+	@cp $(TARGET).dol package/apps/wiilink-patcher/boot.dol
+	@cp wiilink-patcher/meta.xml wiilink-patcher/icon.png package/apps/wiilink-patcher/
+	@cp README.md LICENSE LICENSE.WIILINK-GUI package/
+	@mkdir -p package/debug-symbols
+	@cp $(TARGET).elf $(TARGET).elf.map package/debug-symbols/
+	@rm -f wiilink-patcher-wii-$(shell grep APP_VERSION source/config.h | cut -d'"' -f2).zip
+	@cd package && zip -9 -r ../wiilink-patcher-wii-$(shell grep APP_VERSION source/config.h | cut -d'"' -f2).zip . >/dev/null
+	@echo "Created wiilink-patcher-wii package"
 
+debug:
+	@$(MAKE) clean
+	@$(MAKE) DEBUG=1 all
+	@cp $(TARGET).dol $(TARGET)-debug.dol
 
-#---------------------------------------------------------------------------------
 else
 
-DEPENDS	:=	$(OFILES:.o=.d)
+DEPENDS := $(OFILES:.o=.d)
 
-#---------------------------------------------------------------------------------
-# main targets
-#---------------------------------------------------------------------------------
 $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
 
-$(OFILES_SOURCES) : $(HFILES)
-
-#---------------------------------------------------------------------------------
-# This rule links in binary data with the .json extension
-#---------------------------------------------------------------------------------
-%.json.o %_json.h :	%.json
-#---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	$(bin2o)
-
 -include $(DEPENDS)
 
-#---------------------------------------------------------------------------------
 endif
-#---------------------------------------------------------------------------------

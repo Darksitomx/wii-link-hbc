@@ -1,30 +1,32 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef WIILINK_CONFIG_H
+#define WIILINK_CONFIG_H
 
-#define VERSION "0.2"
+#define APP_NAME "WiiLink Patcher Wii"
+#define APP_SLUG "wiilink-patcher"
+#define APP_VERSION "0.1.0"
+#define APP_BUILD "2026-08-13"
 
-#define APPS_DIR "/apps/libreshop"
+#define APP_DIR "sd:/apps/wiilink-patcher"
+#define WORK_DIR "sd:/wiilink/.tmp"
+#define WAD_DIR "sd:/WAD"
+#define LOG_DIR "sd:/apps/wiilink-patcher/logs"
+#define DEBUG_LOG_PATH LOG_DIR "/debug.log"
+#define CRASH_LOG_PATH LOG_DIR "/crash.log"
 
-#define OVERSCAN_X 3
-#define OVERSCAN_X_SPACES "   "
+#define NUS_HOST "nus.cdn.shop.wii.com"
+#define NUS_BASE "http://nus.cdn.shop.wii.com/ccs/download"
+#define PATCHER_HOST "patcher.wiilink24.com"
+#define PATCHER_BASE "http://patcher.wiilink24.com"
+#define OSC_HOST "hbb1.oscwii.org"
+#define OSC_BASE "http://hbb1.oscwii.org"
 
-#define OVERSCAN_Y 2
-#define OVERSCAN_Y_LINES_MINUS_1 "\n"
-
-#define LINE "============================================================================="
-#define BLNK "                                                                             "
-
-#define PGLC 77 - OVERSCAN_X - 1, (OVERSCAN_X_SPACES "|                                                                           "), ("|" OVERSCAN_X_SPACES)
-#define PGLN 77 - OVERSCAN_X - 1, (OVERSCAN_X_SPACES "+---------------------------------------------------------------------------"), ("+" OVERSCAN_X_SPACES)
-
-#define PGLB 77 - OVERSCAN_X - 4, (OVERSCAN_X_SPACES "  (1/3) Downloading...                                                      "), ("0%  " OVERSCAN_X_SPACES)
-#define PGEX 77 - OVERSCAN_X - 4, (OVERSCAN_X_SPACES "  (2/3) Extracting...                                                       "), ("0%  " OVERSCAN_X_SPACES)
-#define PGIN 77 - OVERSCAN_X - 4, (OVERSCAN_X_SPACES "  Initializing extraction...                                                "), ("0%  " OVERSCAN_X_SPACES)
-
-// do not change!
-#define OVERSCAN_Y_LINES OVERSCAN_Y_LINES_MINUS_1 "\n"
-#define OVERSCAN_Y_TIMES_2 (OVERSCAN_Y * 2)
-#define OVERSCAN_X_WRAP_TO (77 - (OVERSCAN_X * 2))
-#define OVERSCAN_X_PROGRESS (OVERSCAN_X_WRAP_TO - 4)
+#define HTTP_CONNECT_TIMEOUT_MS 15000
+#define HTTP_IO_TIMEOUT_MS 30000
+#define HTTP_RETRIES 3
+#define IO_BUFFER_SIZE 0x10000
+#define WIILINK_MAX_TMD_SIZE 8192
+#define MAX_TICKET_SIZE 4096
+#define MAX_CONTENTS 64
+#define MAX_MENU_ITEMS 64
 
 #endif

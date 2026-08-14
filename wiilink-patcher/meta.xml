@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>WiiLink Patcher Wii</name>
+  <coder>WiiLink Patcher Wii contributors</coder>
+  <version>0.1.0</version>
+  <release_date>20260813000000</release_date>
+  <short_description>Prepara canales WiiLink desde la Wii</short_description>
+  <long_description>Cliente Wii basado en LibreShop que descarga titulos desde NUS, aplica los parches BSDIFF oficiales de WiiLink y genera WAD en sd:/WAD.
+
+No instala en NAND automaticamente. Usa yawmME, incluido por el cliente, para instalar los WAD despues de comprobar la region. Incluye logs persistentes, crashlog con registros y stack trace, y debug en pantalla con 1/X.
+
+Controles:
+A - aceptar
+B - volver
+D-Pad - mover
+1 / X - activar debug en pantalla
+HOME / START - salir</long_description>
+  <ahb_access/>
+  <no_ios_reload/>
+</app>

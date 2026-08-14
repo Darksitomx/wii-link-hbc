@@ -61,7 +61,7 @@ package: all
 	@mkdir -p package/apps/wiilink-patcher
 	@cp $(TARGET).dol package/apps/wiilink-patcher/boot.dol
 	@cp wiilink-patcher/meta.xml wiilink-patcher/icon.png package/apps/wiilink-patcher/
-	@cp README.md LICENSE LICENSE.WIILINK-GUI package/
+	@cp README.md README-es.md LICENSE LICENSE.WIILINK-GUI package/
 	@mkdir -p package/debug-symbols
 	@cp $(TARGET).elf $(TARGET).elf.map package/debug-symbols/
 	@rm -f wiilink-patcher-wii-$(shell grep APP_VERSION source/config.h | cut -d'"' -f2).zip

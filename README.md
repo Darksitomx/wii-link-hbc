@@ -1,80 +1,84 @@
 # WiiLink Patcher Wii
 
-Cliente nativo para Wii (`boot.dol`) basado en un fork de
+[Español](README-es.md)
+
+Native Wii client (`boot.dol`) based on a fork of
 [OpenShopChannel/libreshop-client](https://github.com/OpenShopChannel/libreshop-client).
-Porta a C/libogc el flujo relevante de
-[WiiLink24/WiiLink-Patcher-GUI](https://github.com/WiiLink24/WiiLink-Patcher-GUI):
+It ports the relevant workflow from
+[WiiLink24/WiiLink-Patcher-GUI](https://github.com/WiiLink24/WiiLink-Patcher-GUI)
+to C/libogc:
 
-1. descarga TMD, ticket y contenidos desde Nintendo Update Servers (NUS);
-2. verifica SHA-1 y descifra el contenido con el motor AES de IOS;
-3. descarga y aplica los parches `BSDIFF40` oficiales de WiiLink;
-4. actualiza y fakesigna el TMD;
-5. cifra los contenidos y genera el WAD en `usb:/WAD`;
-6. descarga las aplicaciones auxiliares desde Open Shop Channel.
+1. downloads the TMD, ticket, and contents from Nintendo Update Servers (NUS);
+2. verifies SHA-1 and decrypts content using the IOS AES engine;
+3. downloads and applies the official WiiLink `BSDIFF40` patches;
+4. updates and fakesigns the TMD;
+5. encrypts the contents and generates the WAD in `usb:/WAD`;
+6. downloads support applications from Open Shop Channel.
 
-> **Seguridad:** la aplicación no instala ni modifica la NAND. Genera WAD y descarga
-> `yawmME`; el usuario decide qué instalar. Comprueba siempre que la región del WAD
-> sea la de la consola y conserva una copia de NAND/BootMii.
+> **Safety:** the application does not install to or modify NAND. It generates WAD
+> files and downloads `yawmME`; the user decides what to install. Always verify that
+> the WAD region matches the console and keep a NAND/BootMii backup.
 
-## Cambios en 0.2.0
+## Changes in 0.2.0
 
-- Selector persistente de idioma para la interfaz: Español y English.
-- En el primer arranque se solicita el idioma; después puede cambiarse desde el
-  menú principal.
-- Catálogo extensible en `source/i18n.c`: el español es la fuente/fallback y las
-  traducciones nuevas se añaden sin modificar la lógica de la interfaz.
-- Los estados, errores HTTP/NUS/BSDIFF/AES/WAD y la pantalla de crash también se
-  muestran en el idioma seleccionado.
-- La preferencia se guarda en `usb:/apps/wiilink-patcher/language.cfg`.
+- Persistent interface language selector: Español and English.
+- The language is requested on first launch and can later be changed from the main
+  menu.
+- Extensible catalog in `source/i18n.c`: Spanish is the source/fallback language,
+  and new translations can be added without changing the interface logic.
+- Status messages, HTTP/NUS/BSDIFF/AES/WAD errors, and the crash screen are shown
+  in the selected language.
+- The preference is saved to `usb:/apps/wiilink-patcher/language.cfg`.
 
-## Cambios en 0.1.2
+## Changes in 0.1.2
 
-- Corrige el falso error `BSPATCH: el tamaño del parche no coincide` en USB.
-  `libfat` puede mantener desactualizado el tamaño del directorio FAT mientras el
-  archivo sigue abierto; ahora BSPATCH valida `new_pos` y `ftell()`, fuerza
-  `fflush()`/`fclose()` y solo después renombra el resultado.
+- Fixes the false `BSPATCH: patch size does not match` error on USB.
+  `libfat` may keep the FAT directory size stale while a file is open; BSPATCH now
+  validates `new_pos` and `ftell()`, forces `fflush()`/`fclose()`, and only then
+  renames the result.
 
-## Funciones
+## Features
 
-- Instalación express para Forecast, News, Nintendo Channel, Everybody Votes y
-  Check Mii Out/Mii Contest, con selección de región.
-- Selección personalizada de los canales WiiConnect24, regionales y extras presentes
-  en `WiiLink-Patcher-GUI` v1.5.3.
-- Wii Room en nueve idiomas; Photo Prints/Digicam; Food Channel estándar, Domino's
-  y Just Eat; Kirby TV; Wii Speak; Today and Tomorrow; Internet Channel; System
-  Channel Restorer.
-- Descarga de `yawmME`, `sntp`, `Mail-Patcher`, AnyGlobe Changer, WSR Patcher y
-  Account Linker cuando correspondan.
-- Wii Remote, Classic Controller y mando de GameCube.
-- HTTP con `Content-Length` o `chunked`, reintentos y escritura atómica `.part`.
-- Procesamiento por streaming: los contenidos, AES y BSDIFF pasan por SD y no se
-  cargan completos en RAM.
+- Express setup for Forecast, News, Nintendo Channel, Everybody Votes, and Check
+  Mii Out/Mii Contest, with region selection.
+- Custom selection of WiiConnect24, regional, and extra channels available in
+  `WiiLink-Patcher-GUI` v1.5.3.
+- Wii Room in nine languages; Photo Prints/Digicam; standard, Domino's, and Just
+  Eat Food Channel variants; Kirby TV; Wii Speak; Today and Tomorrow; Internet
+  Channel; and System Channel Restorer.
+- Downloads `yawmME`, `sntp`, `Mail-Patcher`, AnyGlobe Changer, WSR Patcher, and
+  Account Linker when required.
+- Wii Remote, Classic Controller, and GameCube Controller support.
+- HTTP support for `Content-Length` and `chunked` responses, retries, and atomic
+  `.part` writes.
+- Streaming processing: contents, AES, and BSDIFF pass through USB and are never
+  loaded completely into RAM.
 
-## Logs y depuración
+## Logs and debugging
 
-- Log persistente: `usb:/apps/wiilink-patcher/logs/debug.log`.
-- El log rota a `debug.log.old` al superar 512 KiB.
-- Crashlog: `usb:/apps/wiilink-patcher/logs/crash.log`.
-- El crash handler muestra excepción, PC, LR, último paso y stack trace en pantalla,
-  y guarda los 32 registros GPR y hasta 16 direcciones de retorno.
-- Pulsa **1** en Wii Remote o **X** en Classic/GameCube para alternar el debug en
-  pantalla en cualquier menú.
-- El ZIP incluye `debug-symbols/wiilink-patcher-wii.elf` y su `.map`. Para
-  resolver una dirección:
+- Persistent log: `usb:/apps/wiilink-patcher/logs/debug.log`.
+- The log rotates to `debug.log.old` after 512 KiB.
+- Crash log: `usb:/apps/wiilink-patcher/logs/crash.log`.
+- The crash handler displays the exception, PC, LR, last step, and stack trace, and
+  saves all 32 GPR registers plus up to 16 return addresses.
+- Press **1** on a Wii Remote or **X** on a Classic/GameCube Controller to toggle
+  on-screen debugging from any menu.
+- The ZIP includes `debug-symbols/wiilink-patcher-wii.elf` and its `.map`. Resolve
+  an address with:
 
 ```sh
-powerpc-eabi-addr2line -e debug-symbols/wiilink-patcher-wii.elf -f -C 0xDIRECCION
+powerpc-eabi-addr2line -e debug-symbols/wiilink-patcher-wii.elf -f -C 0xADDRESS
 ```
 
-La build de desarrollo arranca con el debug en pantalla activo:
+The development build starts with on-screen debugging enabled:
 
 ```sh
 make debug
 ```
 
-## Compilación
+## Building
 
-Dependencias de devkitPro:
+Required devkitPro packages:
 
 ```sh
 sudo dkp-pacman -S wii-dev ppc-bzip2
@@ -84,48 +88,49 @@ make -j2
 make package
 ```
 
-Salidas:
+Outputs:
 
 - `wiilink-patcher-wii.dol`
 - `wiilink-patcher-wii.elf`
 - `wiilink-patcher-wii.elf.map`
 - `wiilink-patcher-wii-0.2.0.zip`
 
-Para instalar manualmente, copia el contenido del ZIP a la raíz de una unidad USB FAT32.
-Homebrew Channel cargará `usb:/apps/wiilink-patcher/boot.dol`.
+For a manual installation, copy the ZIP contents to the root of a FAT32 USB drive.
+The Homebrew Channel will load `usb:/apps/wiilink-patcher/boot.dol`.
 
-## Actualizar el catálogo
+## Updating the catalog
 
-`source/catalog_generated.c` se genera desde el `patches.json` de
-WiiLink-Patcher-GUI:
+`source/catalog_generated.c` is generated from WiiLink-Patcher-GUI's
+`patches.json`:
 
 ```sh
 python3 tools/generate_catalog.py
 ```
 
-El generador conserva `category_id`, `item_id`, región, idioma, versión NUS,
-parches, TMD/ticket especiales, dependencias y aplicaciones auxiliares.
+The generator preserves `category_id`, `item_id`, region, language, NUS version,
+patches, special TMD/ticket files, dependencies, and support applications.
 
-## Pruebas realizadas
+## Validation performed
 
-- Compilación limpia con devkitPPC r50 / GCC 16.1.0 / libogc 3.1.0.
-- Arranque del DOL verificado en Dolphin 2503; el montaje `usb:/` requiere la prueba final en hardware real con almacenamiento USB.
-- SHA-1 contrastado con el vector `SHA1("abc")`.
-- Catálogo de interfaz validado: 210 entradas Español → English, sin claves
-  duplicadas y con especificadores `printf` compatibles.
-- `bspatch` por streaming contrastado con `bsdiff4` sobre datos aleatorios de
-  500 KiB y sobre el parche real `forecast/Forecast_1.bsdiff`.
-- Catálogo validado contra los endpoints HTTP de NUS, WiiLink Patcher y OSC.
+- Clean build with devkitPPC r50 / GCC 16.1.0 / libogc 3.1.0.
+- DOL startup verified in Dolphin 2503; the `usb:/` mount still requires final
+  validation on real hardware with USB storage.
+- SHA-1 checked against the `SHA1("abc")` test vector.
+- Interface catalog validated: 210 Spanish → English entries, no duplicate keys,
+  and compatible `printf` format specifiers.
+- Streaming `bspatch` checked against `bsdiff4` using 500 KiB of randomized data
+  and the real `forecast/Forecast_1.bsdiff` patch.
+- Catalog checked against the NUS, WiiLink Patcher, and OSC HTTP endpoints.
 
-No se puede sustituir una prueba en hardware real: antes de publicar una release,
-prueba al menos una Wii y una vWii, conserva los logs y verifica los WAD con una
-herramienta independiente.
+Testing on real hardware cannot be replaced: before publishing a release, test at
+least one Wii and one vWii, preserve the logs, and verify generated WAD files with
+an independent tool.
 
-## Licencias y atribución
+## Licenses and attribution
 
-- Base LibreShop: GPL-3.0, conservada en `LICENSE`.
-- Datos/flujo de WiiLink-Patcher-GUI: MPL-2.0, conservada en
+- LibreShop base: GPL-3.0, preserved in `LICENSE`.
+- WiiLink-Patcher-GUI data/workflow: MPL-2.0, preserved in
   `LICENSE.WIILINK-GUI`.
-- BSDIFF40 es el formato creado por Colin Percival; este port usa la interfaz bzip2
-  de devkitPro.
-- Los parches y servicios descargados pertenecen a sus respectivos proyectos.
+- BSDIFF40 is the format created by Colin Percival; this port uses devkitPro's
+  bzip2 interface.
+- Downloaded patches and services belong to their respective projects.

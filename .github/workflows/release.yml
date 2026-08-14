@@ -11,30 +11,15 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    container: devkitpro/devkitppc:latest
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
-
-      - name: Install devkitPro and Wii dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-          sudo mkdir -p /usr/share/keyring
-          sudo wget -q -U "dkp apt" \
-            -O /usr/share/keyring/devkitpro-pub.gpg \
-            https://apt.devkitpro.org/devkitpro-pub.gpg
-          echo "deb [signed-by=/usr/share/keyring/devkitpro-pub.gpg] https://apt.devkitpro.org stable main" \
-            | sudo tee /etc/apt/sources.list.d/devkitpro.list >/dev/null
-          sudo apt-get update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y devkitpro-pacman
-          sudo dkp-pacman -Sy --noconfirm
-          sudo dkp-pacman -S --needed --noconfirm wii-dev ppc-bzip2
+        uses: actions/checkout@v5
 
       - name: Build Wii package
         shell: bash
         run: |
           set -euo pipefail
-          source /etc/profile.d/devkit-env.sh
           make clean
           make -j2
           make package
@@ -42,30 +27,25 @@ jobs:
           sha256sum wiilink-patcher-wii-*.zip wiilink-patcher-wii.dol > SHA256SUMS.txt
 
       - name: Publish GitHub release
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          cat > release-notes.md <<'EOF'
-          Unofficial native Wii client created by Darksito and Mila Soraki, based
-          on LibreShop and the WiiLink Patcher GUI workflow. This project is not
-          affiliated with or endorsed by WiiLink.
+        uses: softprops/action-gh-release@v2
+        with:
+          name: WiiLink Patcher Wii ${{ github.ref_name }}
+          body: |
+            Unofficial native Wii client created by Darksito and Mila Soraki,
+            based on LibreShop and the WiiLink Patcher GUI workflow. This project
+            is not affiliated with or endorsed by WiiLink.
 
-          Highlights:
-          - Minimal ZIP containing only `wiilink-patcher-wii/{boot.dol,icon.png,meta.xml}`
-          - USB storage under `usb:/`
-          - Streaming NUS, AES, BSDIFF, and WAD generation
-          - Persistent debug and crash logs
-          - Spanish and English interface selector
-          - Wii Remote, Classic Controller, and GameCube Controller support
+            Highlights:
+            - Minimal ZIP containing only `wiilink-patcher-wii/{boot.dol,icon.png,meta.xml}`
+            - USB storage under `usb:/`
+            - Streaming NUS, AES, BSDIFF, and WAD generation
+            - Persistent debug and crash logs
+            - Spanish and English interface selector
+            - Wii Remote, Classic Controller, and GameCube Controller support
 
-          The application does not install WAD files automatically. Verify the console
-          region and keep a NAND/BootMii backup before installing generated WAD files.
-          EOF
-          gh release create "$GITHUB_REF_NAME" \
-            wiilink-patcher-wii-*.zip \
-            wiilink-patcher-wii.dol \
-            SHA256SUMS.txt \
-            --title "WiiLink Patcher Wii $GITHUB_REF_NAME" \
-            --notes-file release-notes.md
+            The application does not install WAD files automatically. Verify the
+            console region and keep a NAND/BootMii backup before installing WADs.
+          files: |
+            wiilink-patcher-wii-*.zip
+            wiilink-patcher-wii.dol
+            SHA256SUMS.txt
